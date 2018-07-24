@@ -1,0 +1,48 @@
+
+<style id="address-lookup-style">
+  @media (min-width: 680px) {
+    #address-lookup-modal-view.modal { top: 10%; bottom: 10%;}
+  }
+  #address-lookup-search { min-width:32.5px; } 
+  #address-lookup-search svg {width: 26px; height: 26px; margin: 5px 0;}
+  #address-lookup-map .wrap {min-height: 200px;}
+  #address-lookup-map .angular-google-map-container {min-height: 200px;}
+</style>
+<ion-modal-view id="address-lookup-modal-view">
+  <ion-header-bar class="bar-balanced"> 
+    <h1 class="title">Address Lookup</h1>
+  </ion-header-bar>
+  <ion-content>
+    <div id="address-lookup-modal" class="list condensed">
+      <div class="item">
+        <div class="item-input-inset no-padding">
+          <div class="item-input-wrapper no-padding">
+            <input type="text" ng-model="vm.address0" placeholder="Enter Address" ng-attr-clear-field="vm.isBrowser"/>
+          </div>
+          <button id="address-lookup-search" ng-click="vm.updateGeocode(vm.address0)" class="button button-balanced button-small no-padding"><i ng-hide="vm.loading" class="icon ion-search"></i>
+            <ion-spinner ng-show="vm.loading" class="spinner-light"></ion-spinner>
+          </button>
+        </div>
+        <div ng-show="vm['error-address0']" class="error"><span class="assertive">{{vm['error-address0']}}</span></div>
+      </div>
+        <p class="help"><span ng-show="vm.isValidMarker()" class="positive">{{vm.MESSAGE.VERIFY_LABEL}}</span></p>
+      </div>
+      <div id="address-lookup-map" class="item item-complex">
+        <div ng-if="vm.map" class="wrap">{{opt = vm.map.options;''}}
+          <ui-gmap-google-map center="vm.map.center" zoom="vm.map.zoom" options="opt.map.options">
+            <ui-gmap-circle ng-if="vm.map.type=='circle'" center="opt.circle.center" radius="opt.circle.radius" stroke="opt.circle.stroke"></ui-gmap-circle>
+            <ui-gmap-marker ng-if="vm.isValidMarker()" idKey="opt.oneMarker.idKey" coords="opt.oneMarker.coords" options="opt.oneMarker.options" events="opt.oneMarker.events"></ui-gmap-marker>
+            <ui-gmap-markers ng-if="vm.map.type=='manyMarkers'" fit="true" idkey="id" coords="'self'" models="opt.manyMarkers.models" options="opt.manyMarkers.options" modelbyref="true" xxclick="'opt.manyMarkers.events.click'" events="opt.manyMarkers.events"></ui-gmap-markers>
+          </ui-gmap-google-map>
+        </div>
+        <p class="padding-horizontal"> <span ng-show="vm.isValidMarker()" class="padding-horizontal positive">Drag the marker to change location</span><span ng-show="vm.map.type=='manyMarkers'" class="padding-horizontal positive">Multiple locations found, click Marker to select</span></p>
+      </div>
+      <div class="item">
+        <div class="button-bar">
+          <button ng-click="closeModal('CANCELED')" class="button button-balanced button-outline">Cancel</button>
+          <button ng-click="closeModal(vm)" ng-disabled="vm.isValidMarker()==false" class="button button-balanced">OK</button>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-modal-view>

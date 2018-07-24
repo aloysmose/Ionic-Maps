@@ -1,0 +1,19 @@
+/* Styles go here */
+#address-lookup-modal .item-floating-label input, #address-lookup-modal .item-input-inset input {
+  width: 100%; }
+
+#map .wrap {
+  height: 360px; }
+  @media (max-width: 567px) {
+    #map .wrap {
+      height: 200px; } }
+  #map .wrap .angular-google-map-container {
+    /*width: 360px;*/
+    height: 360px; }
+    @media (max-width: 567px) {
+      #map .wrap .angular-google-map-container {
+        height: 200px; } }
+
+input {
+  width: 100%;
+}
